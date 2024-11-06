@@ -8,6 +8,7 @@ public class TruongPhong extends NhanVien {
         this.trachNhiem = trachNhiem;
     }
 
+
     public double getTrachNhiem() {
         return trachNhiem;
     }

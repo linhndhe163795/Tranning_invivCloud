@@ -1,4 +1,5 @@
 import entity.NhanVien;
+import manage.Enums;
 import manage.Menu;
 import manage.QuanLyNhanSu;
 import validation.Validation;
@@ -12,11 +13,12 @@ public class Main {
         QuanLyNhanSu qlns = new QuanLyNhanSu();
         Menu menu = new Menu();
         Validation validation = new Validation();
+
         qlns.taoData();
         while (true){
             menu.menu();
             System.out.print("Nhập lựa chọn của bạn: ");
-            int option = validation.checkInputInRange(1,9);
+            int option = validation.checkInputInRange(Enums.MIN.getValues(),Enums.MAX.getValues());
             switch (option){
                 case 1:
                     qlns.nhap();
@@ -28,27 +30,29 @@ public class Main {
                     qlns.hienThiNhanVienTheoMa();
                     break;
                 case 4:
-                    qlns.xoaNhanVien();
+                    qlns.timNhanVienTheoMaList();
                     break;
                 case 5:
-                    qlns.capNhapThongTinNhanVien();
+                    qlns.xoaNhanVien();
                     break;
                 case 6:
-                    qlns.timNhanVienTheoMucLuong();
+                    qlns.capNhapThongTinNhanVien();
                     break;
                 case 7:
-                    qlns.sapXepTheoTen();
+                    qlns.timNhanVienTheoMucLuong();
                     break;
                 case 8:
-                    qlns.sapXepTheoThuNhap();
+                    qlns.sapXepTheoTen();
                     break;
                 case 9:
-                    qlns.xuat5NhanVienCoThuNhapCaoNhat();
+                    qlns.sapXepTheoThuNhap();
                     break;
                 case 10:
+                    qlns.xuat5NhanVienCoThuNhapCaoNhat();
+                    break;
+                case 11:
                     return;
             }
         }
-
     }
 }

@@ -6,7 +6,6 @@ import entity.TruongPhong;
 import validation.Validation;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class QuanLyNhanSu {
     Validation validation = new Validation();
@@ -24,9 +23,9 @@ public class QuanLyNhanSu {
         hashMapNv.put(nv4.getMaNhanVien(),nv4);
         hashMapNv.put(nv5.getMaNhanVien(),nv5);
         hashMapNv.put(nv6.getMaNhanVien(),nv6);
+
     }
     public void nhap(){
-
         while (true){
             System.out.println("------------ Quản lý nhân sự ------------");
             System.out.print("Mã nhân viên: ");
@@ -67,7 +66,6 @@ public class QuanLyNhanSu {
     }
     public void xuat(){
         System.out.println("------- Danh Sách nhân viên -------");
-        System.out.println("------ Cách 1: Sử dụng hashMap để lấy ra giá trị");
         // sử dụng hashMap để lấy ra values
         for (NhanVien nv : hashMapNv.values()) {
             System.out.println(nv.toString());
@@ -75,19 +73,31 @@ public class QuanLyNhanSu {
     }
     public NhanVien timNhanVienTheoMa(){
         boolean check = true;
-        System.out.print("Nhập sinh viên theo mã: ");
+        System.out.print("Nhập mã nhân viên: ");
         String maNhanVien = validation.checkInputIsString();
-        if(!checkMaNhanVien(maNhanVien)){
+        if(checkMaNhanVien(maNhanVien)){
             for (Map.Entry<String, NhanVien> entry : hashMapNv.entrySet()) {
                 if (entry.getKey().equalsIgnoreCase(maNhanVien)) {
                     return entry.getValue();
-
                 }
             }
         }else{
-            System.out.println("Không có nhân viên có mã: " + maNhanVien);
+            System.err.println("Không có nhân viên có mã: " + maNhanVien);
         }
         return null;
+    }
+    public void timNhanVienTheoMaList(){
+        boolean check = true;
+        System.out.println("Nhập mã nhân viên: ");
+        String maNhanVien = validation.checkInputIsString();
+        Collection<NhanVien> values = hashMapNv.values();
+        ArrayList<NhanVien> listNhanVien = new ArrayList<>(values);
+        Optional<NhanVien> findNv = listNhanVien.stream().filter(x -> x.getMaNhanVien().equalsIgnoreCase(maNhanVien)).findAny();
+        if(findNv.isEmpty()){
+            System.err.println("Không tìm thấy nhân viên nào có mã: "+ maNhanVien);
+        }else{
+            System.out.println(findNv.toString());
+        }
     }
     public boolean checkMaNhanVien(String maNhanVien){
         return  hashMapNv.entrySet().stream().anyMatch(x -> x.getKey().equalsIgnoreCase(maNhanVien));
@@ -108,7 +118,7 @@ public class QuanLyNhanSu {
             }
         }
         if (!found) {
-            System.out.println("Không có nhân viên có mã: " + nv.getMaNhanVien());
+            System.err.println("Không có nhân viên có mã: " + nv.getMaNhanVien());
         }
     }
     public void capNhapThongTinNhanVien(){
@@ -181,6 +191,8 @@ public class QuanLyNhanSu {
     }
     public void hienThiNhanVienTheoMa(){
         NhanVien nv = timNhanVienTheoMa();
-        System.out.println(nv.toString());
+        if(nv != null){
+            System.out.println(nv.toString());
+        }
     }
 }

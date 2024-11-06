@@ -47,7 +47,11 @@ public class NhanVien {
             return 12;
         }
     }
+    private void speak(){
 
+        System.out.println("Hello");
+
+    }
     @Override
     public String toString() {
         return "NhanVien{" +
