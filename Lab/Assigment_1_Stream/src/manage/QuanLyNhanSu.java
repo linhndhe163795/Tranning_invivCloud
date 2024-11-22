@@ -23,7 +23,6 @@ public class QuanLyNhanSu {
         hashMapNv.put(nv4.getMaNhanVien(),nv4);
         hashMapNv.put(nv5.getMaNhanVien(),nv5);
         hashMapNv.put(nv6.getMaNhanVien(),nv6);
-
     }
     public void nhap(){
         while (true){
@@ -40,23 +39,9 @@ public class QuanLyNhanSu {
             System.out.print("Nhập lương nhân viên");
             double luong = validation.checkInputIsDouble();
             System.out.println("--------- Loại nhân viên-------");
-            System.out.print("1. Tiếp thị");
-            System.out.print("2. Trưởng phòng");
-            int option = validation.checkInputInRange(1,2);
-            if(option == 1){
-                System.out.print("Nhập lương hoa hồng: ");
-                double luongHoaHong = validation.checkInputIsDouble();
-                System.out.print("Lương tiếp thị: ");
-                double doanhSo = validation.checkInputIsDouble();
-                NhanVien tiepThi = new TiepThi(maNhanVien,hoVaTen,luong,doanhSo,luongHoaHong);
-               hashMapNv.put(maNhanVien,tiepThi);
-            }else{
-                System.out.print("Nhập lương trách nhiệm: ");
-                double trachnhiem = validation.checkInputIsDouble();
-
-                NhanVien tp = new TruongPhong(maNhanVien,hoVaTen,luong,trachnhiem);
-                hashMapNv.put(maNhanVien,tp);
-            }
+            System.out.println("1. Tiếp thị");
+            System.out.println("2. Trưởng phòng");
+            InputNhanVienInstance(maNhanVien,hoVaTen,luong);
             System.out.print("Do you want to continue (Y/N): ");
             boolean checkCoutinue = validation.checkInputIsYesOrNo();
             if(!checkCoutinue){
@@ -101,12 +86,10 @@ public class QuanLyNhanSu {
     }
     public boolean checkMaNhanVien(String maNhanVien){
         return  hashMapNv.entrySet().stream().anyMatch(x -> x.getKey().equalsIgnoreCase(maNhanVien));
-
     }
     public void xoaNhanVien(){
         NhanVien nv = timNhanVienTheoMa();
         boolean found = false;
-
         Iterator<Map.Entry<String, NhanVien>> iterator = hashMapNv.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, NhanVien> entry = iterator.next();
@@ -135,20 +118,7 @@ public class QuanLyNhanSu {
                     System.out.print("Nhập lương: ");
                     double luong = validation.checkInputIsDouble();
                     nv.setLuong(luong);
-
-                    if(nv instanceof TiepThi){
-                        System.out.print("Nhập doanh so: ");
-                        double doanhSo = validation.checkInputIsDouble();
-                        ((TiepThi) nv).setDoanhSo(doanhSo);
-                        System.out.print("Nhập hoa hồng: ");
-                        double HoaHong = validation.checkInputIsDouble();
-                        ((TiepThi) nv).setHoaHong(HoaHong);
-                    }
-                    if(nv instanceof TruongPhong){
-                        System.out.println("Nhập lương trách nhiệm: ");
-                        double trachnhiem = validation.checkInputIsDouble();
-                        ((TruongPhong) nv).setTrachNhiem(trachnhiem);
-                    }
+                    nvInstance(nv);
                     found = true;
                     System.out.println("Nhân viên có mã " + nv.getMaNhanVien() + " đã update.");
                     break;
@@ -193,6 +163,39 @@ public class QuanLyNhanSu {
         NhanVien nv = timNhanVienTheoMa();
         if(nv != null){
             System.out.println(nv.toString());
+        }
+    }
+
+    private void nvInstance(NhanVien nv) {
+        if(nv instanceof TiepThi){
+            System.out.print("Nhập doanh so: ");
+            double doanhSo = validation.checkInputIsDouble();
+            ((TiepThi) nv).setDoanhSo(doanhSo);
+            System.out.print("Nhập hoa hồng: ");
+            double HoaHong = validation.checkInputIsDouble();
+            ((TiepThi) nv).setHoaHong(HoaHong);
+        }
+        if(nv instanceof TruongPhong){
+            System.out.println("Nhập lương trách nhiệm: ");
+            double trachnhiem = validation.checkInputIsDouble();
+            ((TruongPhong) nv).setTrachNhiem(trachnhiem);
+        }
+    }
+    private void InputNhanVienInstance(String maNhanVien, String hoVaTen, double luong){
+        int option = validation.checkInputInRange(1,2);
+        if(option == 1){
+            System.out.print("Nhập lương hoa hồng: ");
+            double luongHoaHong = validation.checkInputIsDouble();
+            System.out.print("Lương tiếp thị: ");
+            double doanhSo = validation.checkInputIsDouble();
+            NhanVien tiepThi = new TiepThi(maNhanVien,hoVaTen,luong,doanhSo,luongHoaHong);
+            hashMapNv.put(maNhanVien,tiepThi);
+        }else{
+            System.out.print("Nhập lương trách nhiệm: ");
+            double trachnhiem = validation.checkInputIsDouble();
+
+            NhanVien tp = new TruongPhong(maNhanVien,hoVaTen,luong,trachnhiem);
+            hashMapNv.put(maNhanVien,tp);
         }
     }
 }

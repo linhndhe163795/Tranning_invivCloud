@@ -38,11 +38,13 @@ public class Validation {
             try {
                 double input = Double.parseDouble(sc.nextLine());
                 if (input < 0) {
-                    System.out.println("Please enter a positive number");
+                   throw new ArithmeticException();
                 }else{
+                    System.out.println("tiếp tục chạy");
                     return input;
                 }
-            }catch (Exception e){
+
+            }catch (ArithmeticException e){
                 System.out.println("Please enter a double");
             }
         }
